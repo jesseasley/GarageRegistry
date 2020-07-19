@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<!--
+http://ntwebdes.com/trackmuse/testharness.html
+-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <title>Track Muse</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //createUser();
+            getUsers("jess", "pass");
+            //deleteUserPicture("test2");
+            //saveUserPicture("jess", "pass", "test4", "house", "2012", "ford", "fusion", "ls");
+        });
+        function saveUserPicture(username, password, filename, project, year, make, model, trim) {
+            $.ajax({
+                type: "POST",
+                url: "saveUserPicture.php",
+                data: "username=" + username +
+                    "&filename=" + filename +
+                    "&project=" + project +
+                    "&year=" + year +
+                    "&make=" + make +
+                    "&model=" + model +
+                    "&trim=" + trim +
+                    "&password=" + password,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (jqXHR, status, err) {
+                    alert("AJAX call failed! Error returned: " + err);
+                }
+            });
+        }
+
+        function deleteUserPicture(filename) {
+            $.ajax({
+                type: "POST",
+                url: "deleteUserPicture.php",
+                data: "filename=" + filename,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (jqXHR, status, err) {
+                    alert("AJAX call failed! Error returned: " + err);
+                }
+            });
+        }
+        function getUsers(username, password) {
+            $.ajax({
+                type: "POST",
+                url: "getUsers.php",
+                data: "username=" + username +
+                        "&password=" + password,
+                success: function (data) {
+                    alert(data);
+                    d = eval("(" + data + ")");
+                    alert(d.user.email);
+                },
+                error: function (jqXHR, status, err) {
+                    alert("AJAX call failed! Error returned: " + err);
+                }
+            });
+        }
+        function createUser() {
+            $.ajax({
+                type: "POST",
+                url: "saveNewUser.php",
+                data: "email=jess@jesseasley.com" +
+                        "&username=jess" +
+                        "&zipcode=75028" +
+                        "&password=myPassword",
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (jqXHR, status, err) {
+                    alert("AJAX call failed! Error returned: " + err);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+</body>
+</html>
+
